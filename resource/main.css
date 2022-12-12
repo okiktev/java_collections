@@ -1,0 +1,170 @@
+/* *{padding:0; margin:0;}*/
+
+body{
+	background-color:#F5F5F5;
+	
+
+    
+	
+    /*width:100%;
+    height:100%;
+    min-width:950px;
+    font-size:12pt;
+    background:url(ui/900.jpg);
+    background-repeat:repeat-x; */
+    font-family:Consolas;
+}
+
+td,th {
+	border-style:solid;
+	border-width:1px;
+	border-color:#F5F5F5;
+		/*border-width: 0px; */
+}
+
+
+.i {
+	background-color: #c6c7ff;
+}
+
+.a {
+	background-color: #efa788;
+}
+
+.i, .a {
+	text-align:center;
+	font-size: 1.2em;
+    font-weight: bold;
+}
+
+.c {
+	/*background-color: #77aa22;*/
+	background-color: #79ea83;
+}
+
+.n {
+	font-size: 0.7em;
+}
+
+
+
+/*Modal dlg*/
+
+#jc-modal {
+    display: none; 
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%; 
+    overflow: auto;
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.75);
+}
+
+#jc-modal-content {
+    position: relative;
+    /*background-color: #fefefe;*/
+    margin: auto;
+    padding: 0;
+    /*border: 1px solid #888; */
+    width: 80%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 0.4s;
+    animation-name: animatetop;
+    animation-duration: 0.4s
+}
+
+#jc-modal-header {
+	background-color:#F5F5F5;
+	border-bottom: 1px solid ;
+
+}
+
+#jc-modal-header p {
+    padding-left: 0.5em;
+    padding-top: 0.9em;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+
+#jc-modal-body {
+	background-color:#eae4a4;
+	padding: 0.5em;
+	
+}
+
+#jc-modal-header span {
+ /*   color: white;   */
+    float: right;
+    font-size: 20px;
+    /*font-weight: bold;*/
+	
+	    padding-right: 0.5em;
+		padding-top: 0.5em;
+}
+
+
+#jc-modal-header span:hover,
+#jc-modal-header span:focus {
+   /* color: #000; 
+
+    text-decoration: none;
+
+   */
+   color: red;
+    cursor: pointer;
+}
+
+@-webkit-keyframes animatetop {
+    from {top:-300px; opacity:0} 
+    to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+    from {top:-300px; opacity:0}
+    to {top:0; opacity:1}
+}
+
+
+/* Style the tab */
+.tab {
+    overflow: hidden;
+    /*border: 1px solid #ccc;*/
+    /*background-color: #f1f1f1;*/
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    /*padding: 14px 16px;*/
+    transition: 0.3s;
+	font-size: 0.8em;
+    padding-left: 1em;
+}
+
+.tab button:hover {
+	font-weight: bold;
+	/*text-decoration: underline;*/
+    /*background-color: #ddd;*/
+}
+
+.tab button.active {
+	font-weight: bold;
+	text-decoration: underline;
+    /*background-color: #ccc;*/
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    /*border: 1px solid #ccc;*/
+    border-top: none;
+}

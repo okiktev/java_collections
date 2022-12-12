@@ -1,0 +1,348 @@
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" media="screen,projection,print" href="resource/main.css"/>
+
+
+
+
+
+<script>
+
+String.prototype.replaceAll=function(search,replacement){
+var target=this
+return target.split(search).join(replacement)
+};
+
+
+var el
+var cursor
+var modal
+var modalHeader
+var modalBody
+var bcolor
+
+var collection = [];
+
+
+var htmlSymbols = [
+	{key:'<',val:'lt'},
+	{key:'>',val:'gt'},
+]
+function prepareForHtml(text) {
+	htmlSymbols.forEach(function(el){
+		text=text.replaceAll(el.key, '&' + el.val + ';')
+	})
+	return text
+}
+
+
+function onHover(event) {
+	el=event.srcElement
+	cursor=el.style.cursor
+	bcolor=el.style.borderColor
+	el.style.cursor='pointer'
+	el.style.borderColor='#000'
+}
+
+function out(event) {
+	if (el) {
+		el.style.cursor=cursor
+		el.style.borderColor=bcolor
+		el=undefined
+	}
+}
+
+function click(event) {
+	if (el) {
+		collection.forEach(function(item){
+			if(item.name===el.textContent){
+				modalHeader.innerHTML=item.name
+				var bodyHtml=''
+				item.desc.forEach(function(desc) {
+					bodyHtml += '<p>' + desc + '</p>'
+				})
+				if(item.javadoc&&item.javadoc!==''){
+					bodyHtml += '<a target="_blank" href="' + item.javadoc + '">Ссылка на JavaDoc</a>'
+				}
+				var bodyMethHtml='<table>'
+				item.methods.forEach(function(meth) {
+				console.log(meth)
+					bodyMethHtml += '<tr><td>' + prepareForHtml(meth) + '</td></tr>'
+					console.log(prepareForHtml(meth))
+				})
+				bodyMethHtml+='</table>'
+				document.getElementById('methods').innerHTML=bodyMethHtml
+				
+				document.getElementsByClassName('tablinks')[0].className+=' active'
+				var desc = document.getElementById('description')
+				desc.innerHTML=bodyHtml
+				desc.style.display='block'
+				modal.style.display='block'
+			}
+		})
+	}
+}
+
+function loop(node) {
+	handleNode(node)
+	var nodes=node.childNodes
+	for(var i=0;i<nodes.length;i++){
+		if(!nodes[i])continue
+		if(nodes[i].childNodes.length>0)loop(nodes[i])
+	}
+}
+
+function handleNode(node){
+	var tg=node.tagName.toLowerCase()
+	if(tg==='td'||tg==='th'){
+		node.addEventListener("mouseover",function(){onHover(event)})
+		node.addEventListener("mouseout",out)
+		node.addEventListener("click",function(){click(event)})
+	}
+}
+
+
+function closeModal(){
+	modal.style.display='none'
+	resetModelContent()
+}
+
+function resetModelContent(){
+	Array.from(document.getElementsByClassName("tabcontent")).forEach(function(element){
+	console.log('das')
+		element.style.display='none'
+	})
+	Array.from(document.getElementsByClassName('tablinks')).forEach(function(element){
+	console.log('dasdasdas')
+		element.className=element.className.replace(' active', '')
+	})
+}
+
+function clickOnTab(evt, tabName) {
+	resetModelContent()
+	document.getElementById(tabName).style.display='block'
+    evt.currentTarget.className+=' active'
+}
+
+  
+window.onload = function() {
+	// init callbacks
+	loop(document.getElementById('jc'))
+	modal=document.getElementById('jc-modal')
+	modalHeader=document.getElementById('jc-modal-header').getElementsByTagName('p')[0]
+	modalBody=document.getElementById('jc-modal-body')
+
+}
+  
+  
+
+</script>
+
+<script type="text/javascript" src="resource/ArrayList.js"></script>
+<script type="text/javascript" src="resource/Iterable.js"></script>
+<script type="text/javascript" src="resource/Collection.js"></script>
+<script type="text/javascript" src="resource/AbstractCollection.js"></script>
+<script type="text/javascript" src="resource/List.js"></script>
+<script type="text/javascript" src="resource/AbstractList.js"></script>
+<script type="text/javascript" src="resource/Queue.js"></script>
+<script type="text/javascript" src="resource/Set.js"></script>
+<script type="text/javascript" src="resource/Map.js"></script>
+<script type="text/javascript" src="resource/IdentityHashMap.js"></script>
+<script type="text/javascript" src="resource/PriorityQueue.js"></script>
+<script type="text/javascript" src="resource/Deque.js"></script>
+<script type="text/javascript" src="resource/EnumSet.js"></script>
+
+
+
+<div id="jc-modal">
+  <div id="jc-modal-content">
+    <div id="jc-modal-header">
+	  <span onclick="closeModal()" class="fa fa-times-circle"></span>
+      <p></p>
+    </div>
+    <div id="jc-modal-body">
+		<div class="tab">
+		  <button class="tablinks" onclick="clickOnTab(event, 'description')">Description</button>
+		  <button class="tablinks" onclick="clickOnTab(event, 'methods')">Methods</button>
+		</div>
+		<div id="description" class="tabcontent"></div>
+		<div id="methods" class="tabcontent"></div>
+	</div>
+  </div>
+</div>
+<!-- border="1" -->
+<table id="jc" cellspacing="2" cellpadding="5" >
+<tr>
+<td rowspan="13" class="n">j<br/>a<br/>v<br/>a<br/>.<br/>u<br/>t<br/>i<br/>l<br/>.<br/>*</td>
+<td colspan="4" class="i">Iterable</td>
+<td rowspan="4" class="i">Map</td>
+<td></td>
+<td rowspan="5" class="n">A<br/>b<br/>s<br/>t<br/>r<br/>a<br/>c<br/>t<br/>i<br/>o<br/>n<br/>s</td>
+</tr>
+
+<tr>
+<td colspan="4" class="i">Collection</td>
+</tr>
+
+<tr>
+<td colspan="4" class="a">AbstractCollection</td>
+</tr>
+
+
+<tr>
+<td class="i">List</td>
+<td colspan="2" class="i">Queue</td>
+<td class="i">Set</td>
+</tr>
+
+
+<tr>
+<td class="a">AbstractList</td>
+<td class="a">AbstractQueue</td>
+<td class="i">Deque</td>
+<td class="a">AbstractSet</td>
+<td class="a">AbstractMap</td>
+</tr>
+
+
+<tr>
+<td class="c">ArrayList</td>
+<td class="c">PriorityQueue</td>
+<td class="c">ArrayDeque</td>
+<td class="c">HashSet</td>
+<td class="c">HashMap</td>
+<td class="c">Collections</td>
+<td rowspan="15" class="n">C<br/>o<br/>n<br/>c<br/>r<br/>e<br/>t<br/>e<br/> <br/>c<br/>l<br/>a<br/>s<br/>s<br/>e<br/>s</td>
+</tr>
+
+
+<tr>
+<td class="c" colspan="3">LinkedList</td>
+<td class="c">LinkedHashSet</td>
+<td class="c">LinkedHashMap</td>
+<td class="c">Arrays</td>
+</tr>
+
+
+
+<tr>
+<td colspan="3"></td>
+<td class="c">TreeSet</td>
+<td class="c">TreeMap</td>
+</tr>
+
+<tr>
+<td colspan="3"></td>
+<td class="c">EnumSet</td>
+<td class="c">EnumMap</td>
+</tr>
+
+
+<tr>
+<td colspan="4"></td>
+<td class="c">WeakHashMap</td>
+</tr>
+
+
+<tr>
+<td colspan="4"></td>
+<td class="c">IdentityHashMap</td>
+</tr>
+
+
+<tr>
+<td class="c">Vector</td>
+<td colspan="2"></td>
+<td></td>
+<td class="c">Hashtable</td>
+</tr>
+
+
+<tr>
+<td class="c">Stack</td>
+<td colspan="4"></td>
+</tr>
+
+
+<tr>
+<td rowspan="7" class="n">j<br/>a<br/>v<br/>a<br/>.<br/>u<br/>t<br/>i<br/>l<br/>.<br/>c<br/>o<br/>n<br/>c<br/>u<br/>r<br/>r<br/>e<br/>n<br/>t<br/>.<br/>*</td>
+<td class="c">CopyOnWriteArrayList</td>
+<td class="c">ConcurrentLinkedQueue</td>
+<td class="c">ConcurrentLinkedDeque</td>
+<td class="c">CopyOnWriteArraySet</td>
+<td class="c">ConcurrentHashMap</td>
+</tr>
+
+
+<tr>
+<td></td>
+<td class="c">LinkedBlockingQueue</td>
+<td class="c">LinkedBlockingDeque</td>
+<td class="c">ConcurrentSkipListSet</td>
+<td class="c">ConcurrentSkipListMap</td>
+</tr>
+
+
+<tr>
+<td></td>
+<td class="c">PriorityBlockingQueue</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+<tr>
+<td></td>
+<td class="c">ArrayBlockingQueue</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+
+<tr>
+<td></td>
+<td class="c">DelayQueue</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+
+<tr>
+<td></td>
+<td class="c">SynchronousQueue</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+
+<tr>
+<td></td>
+<td class="c">LinkedTransferQueue</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+
+
+
+
+
+
+
+
+
+</table>
+
+
+
+
+
+
+
+
